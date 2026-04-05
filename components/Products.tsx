@@ -1,9 +1,56 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Button } from "react-native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-export default function ProductsScreen() {
+type Props = { navigation: NativeStackNavigationProp<any> };
+
+export default function ProductsScreen({ navigation }: Props) {
   return (
     <View style={styles.container}>
       <Text style={styles.textHeader}>Producs Screen</Text>
+      <View style={styles.buttonView}>
+        <Button
+          title="Red"
+          onPress={() => navigation.navigate("Details", { colorParam: "Red" })}
+        ></Button>
+        <Button
+          title="RedA"
+          onPress={() => navigation.navigate("Details", { colorParam: "RedA" })}
+        ></Button>
+      </View>
+      <View style={styles.buttonView}>
+        <Button
+          title="Orange"
+          onPress={() =>
+            navigation.navigate("Details", { colorParam: "Orange" })
+          }
+        ></Button>
+        <Button
+          title="OrangeA"
+          onPress={() =>
+            navigation.navigate("Details", { colorParam: "OrangeA" })
+          }
+        ></Button>
+      </View>
+      <View style={styles.buttonView}>
+        <Button
+          title="Green"
+          onPress={() =>
+            navigation.navigate("Details", { colorParam: "Green" })
+          }
+        ></Button>
+        <Button
+          title="GreenA"
+          onPress={() =>
+            navigation.navigate("Details", { colorParam: "GreenA" })
+          }
+        ></Button>
+      </View>
+      <View style={styles.buttonView}>
+        <Button
+          title="Go to Home"
+          onPress={() => navigation.navigate("Home")}
+        />
+      </View>
     </View>
   );
 }
@@ -18,18 +65,9 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
   },
-  inputContainer: {
-    flexDirection: "column",
-    width: "90%",
-    alignItems: "center",
+  buttonView: {
+    flexDirection: "row",
+    justifyContent: "space-around",
     marginVertical: 10,
-  },
-  input: {
-    height: 40,
-    borderWidth: 1,
-    width: "70%",
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
   },
 });
