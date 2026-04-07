@@ -1,10 +1,14 @@
 import { View, Text, StyleSheet, Button } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { useEffect } from "react";
 
 type RootStackParamList = { Details: { colorParam: string } };
 type Props = NativeStackScreenProps<RootStackParamList, "Details">;
 
 const DetailsScreen = ({ navigation, route }: Props) => {
+  useEffect(() => {
+    navigation.setOptions({ title: `Product ${colorParam}` });
+  });
   const { colorParam } = route.params;
 
   return (

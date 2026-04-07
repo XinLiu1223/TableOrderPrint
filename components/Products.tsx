@@ -4,46 +4,27 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 type Props = { navigation: NativeStackNavigationProp<any> };
 
 export default function ProductsScreen({ navigation }: Props) {
+  const addButton = (color: string) => (
+    <Button
+      title={color}
+      onPress={() => navigation.navigate("Details", { colorParam: color })}
+    />
+  );
+
   return (
     <View style={styles.container}>
       <Text style={styles.textHeader}>Producs Screen</Text>
       <View style={styles.buttonView}>
-        <Button
-          title="Red"
-          onPress={() => navigation.navigate("Details", { colorParam: "Red" })}
-        ></Button>
-        <Button
-          title="RedA"
-          onPress={() => navigation.navigate("Details", { colorParam: "RedA" })}
-        ></Button>
+        {addButton("Red")}
+        {addButton("RedA")}
       </View>
       <View style={styles.buttonView}>
-        <Button
-          title="Orange"
-          onPress={() =>
-            navigation.navigate("Details", { colorParam: "Orange" })
-          }
-        ></Button>
-        <Button
-          title="OrangeA"
-          onPress={() =>
-            navigation.navigate("Details", { colorParam: "OrangeA" })
-          }
-        ></Button>
+        {addButton("Orange")}
+        {addButton("OrangeA")}
       </View>
       <View style={styles.buttonView}>
-        <Button
-          title="Green"
-          onPress={() =>
-            navigation.navigate("Details", { colorParam: "Green" })
-          }
-        ></Button>
-        <Button
-          title="GreenA"
-          onPress={() =>
-            navigation.navigate("Details", { colorParam: "GreenA" })
-          }
-        ></Button>
+        {addButton("Green")}
+        {addButton("GreenA")}
       </View>
       <View style={styles.buttonView}>
         <Button
