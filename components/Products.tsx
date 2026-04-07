@@ -1,30 +1,38 @@
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button, FlatList } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { BUTTON } from "../model/ProductFeed";
+import ColorButton from "./ColorButton";
 
 type Props = { navigation: NativeStackNavigationProp<any> };
 
 export default function ProductsScreen({ navigation }: Props) {
-  const addButton = (color: string) => (
+  const addButton = (props: {
+    name: string;
+    colorParam: string;
+    id: number;
+    description: string;
+  }) => (
     <Button
-      title={color}
-      onPress={() => navigation.navigate("Details", { colorParam: color })}
+      title={props.name}
+      onPress={() => navigation.navigate("Details", { ...props })}
     />
   );
 
   return (
     <View style={styles.container}>
       <Text style={styles.textHeader}>Producs Screen</Text>
-      <View style={styles.buttonView}>
-        {addButton("Red")}
-        {addButton("RedA")}
-      </View>
-      <View style={styles.buttonView}>
-        {addButton("Orange")}
-        {addButton("OrangeA")}
-      </View>
-      <View style={styles.buttonView}>
-        {addButton("Green")}
-        {addButton("GreenA")}
+      <View style={{ height: "50%", width: "80%" }}>
+        <FlatList
+          data={BUTTON}
+          // renderItem={({ item }) => addButton({ ...item })}
+          renderItem={({ item }) => <ColorButton {...item} />}
+          keyExtractor={(item) => item.id.toString()}
+          // numColumns={2}
+          // columnWrapperStyle={{
+          //   justifyContent: "space-between",
+          //   width: "80%",
+          // }}
+        />
       </View>
       <View style={styles.buttonView}>
         <Button
@@ -49,6 +57,6 @@ const styles = StyleSheet.create({
   buttonView: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginVertical: 10,
+    marginVertical: 5,
   },
 });

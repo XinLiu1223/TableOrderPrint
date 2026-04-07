@@ -2,18 +2,27 @@ import { View, Text, StyleSheet, Button } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useEffect } from "react";
 
-type RootStackParamList = { Details: { colorParam: string } };
+type RootStackParamList = {
+  Details: {
+    name: string;
+    colorParam: string;
+    id: number;
+    description: string;
+  };
+};
 type Props = NativeStackScreenProps<RootStackParamList, "Details">;
 
 const DetailsScreen = ({ navigation, route }: Props) => {
+  const { colorParam, name, description } = route.params;
+
   useEffect(() => {
-    navigation.setOptions({ title: `Product ${colorParam}` });
+    navigation.setOptions({ title: `Product ${name}` });
   });
-  const { colorParam } = route.params;
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text>Product Details {colorParam}</Text>
+      <Text>{description}</Text>
       <Button title="Go Back" onPress={() => navigation.goBack()} />
     </View>
   );
