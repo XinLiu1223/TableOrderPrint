@@ -16,7 +16,11 @@ export default function HomeScreen({ navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-  rootView: { flex: 1, alignItems: "center", justifyContent: "center" },
+  rootView: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   textHeader: {
     fontSize: 22,
     fontWeight: "bold",

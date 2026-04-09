@@ -1,40 +1,43 @@
 import { View, Text, StyleSheet, Button, FlatList } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useState } from "react";
 import { BUTTON } from "../model/ProductFeed";
 import ColorButton from "./ColorButton";
 
 type Props = { navigation: NativeStackNavigationProp<any> };
 
 export default function ProductsScreen({ navigation }: Props) {
+  const [buttons, setButtons] = useState(BUTTON);
+
   const addButton = (props: {
     name: string;
     colorParam: string;
     id: number;
     description: string;
   }) => (
-    <Button
-      title={props.name}
-      onPress={() => navigation.navigate("Details", { ...props })}
-    />
+    <View style={styles.buttonColumn}>
+      <Button
+        title={props.name}
+        onPress={() => navigation.navigate("Details", { ...props })}
+      />
+    </View>
   );
 
   return (
     <View style={styles.container}>
       <Text style={styles.textHeader}>Producs Screen</Text>
-      <View style={{ height: "50%", width: "80%" }}>
+      <View style={styles.listBody}>
         <FlatList
           data={BUTTON}
+          // data={buttons}
           // renderItem={({ item }) => addButton({ ...item })}
           renderItem={({ item }) => <ColorButton {...item} />}
           keyExtractor={(item) => item.id.toString()}
           // numColumns={2}
-          // columnWrapperStyle={{
-          //   justifyContent: "space-between",
-          //   width: "80%",
-          // }}
+          // columnWrapperStyle={styles.columnWrapper}
         />
       </View>
-      <View style={styles.buttonView}>
+      <View style={styles.goHomeButton}>
         <Button
           title="Go to Home"
           onPress={() => navigation.navigate("Home")}
@@ -48,15 +51,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    // justifyContent: "center",
   },
   textHeader: {
     fontSize: 22,
     fontWeight: "bold",
+    marginBottom: 20,
   },
-  buttonView: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginVertical: 5,
+  listBody: {
+    // marginVertical: 10,
+    height: "80%",
+    width: "90%",
+  },
+  buttonColumn: {
+    marginHorizontal: 10,
+  },
+  columnWrapper: {
+    justifyContent: "space-between",
+    width: "80%",
+  },
+  goHomeButton: {
+    // marginTop: 10,
   },
 });

@@ -16,13 +16,24 @@ const DetailsScreen = ({ navigation, route }: Props) => {
   const { colorParam, name, description } = route.params;
 
   useEffect(() => {
-    navigation.setOptions({ title: `Product ${name}` });
+    navigation.setOptions({
+      title: `Product ${name}`,
+      headerStyle: { backgroundColor: colorParam },
+    });
   });
 
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Product Details {colorParam}</Text>
-      <Text>{description}</Text>
+    <View style={styles.container}>
+      <Text
+        style={{
+          fontSize: 22,
+          color: colorParam,
+          marginBottom: 10,
+        }}
+      >
+        Product Details {colorParam}
+      </Text>
+      <Text style={styles.textDescription}>{description}</Text>
       <Button title="Go Back" onPress={() => navigation.goBack()} />
     </View>
   );
@@ -31,9 +42,13 @@ const DetailsScreen = ({ navigation, route }: Props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  textDescription: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10,
   },
   buttonView: {
     flexDirection: "row",
