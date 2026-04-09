@@ -9,6 +9,7 @@ type RootStackParamList = {
     name: string;
     colorParam: string;
     description: string;
+    deleteItem: (btnId: number) => void;
   };
 };
 
@@ -17,19 +18,24 @@ type Props = {
   name: string;
   colorParam: string;
   description: string;
+  deleteItem: (btnId: number) => void;
 };
 
 export default function ColorButton(props: Props) {
-  const { name, colorParam } = props;
+  const { name, colorParam, deleteItem, id } = props;
   const navigate =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
-    <Pressable
-      onPress={() => navigate.navigate("Details", { ...props })}
-      style={({ pressed }) => (pressed ? styles.pressed : styles.unPressed)}
-    >
-      <View style={styles.buttonContainer}>
+    <View style={styles.buttonContainer}>
+      <Pressable
+        onPress={() => navigate.navigate("Details", { ...props })}
+        style={({ pressed }) =>
+          pressed
+            ? [styles.pressed, styles.pressableStyle]
+            : [styles.unPressed, styles.pressableStyle]
+        }
+      >
         <Text style={styles.textStyle}>{name}</Text>
         <View
           style={[
@@ -38,12 +44,14 @@ export default function ColorButton(props: Props) {
               backgroundColor: colorParam,
             },
           ]}
-        >
-          {/* <AntDesign name="delete" size={20} color="red" />
-        <View style={styles.buttonStyle}></View> */}
-        </View>
+        ></View>
+      </Pressable>
+      <View style={styles.iconStyle}>
+        <Pressable onPress={() => deleteItem(id)}>
+          <AntDesign name="delete" size={25} color="red" />
+        </Pressable>
       </View>
-    </Pressable>
+    </View>
   );
 }
 
@@ -78,6 +86,21 @@ const styles = StyleSheet.create({
     backgroundColor: "gold",
   },
   unPressed: {
-    backgroundColor: "lightgrey",
+    // backgroundColor: "lightgrey",
+  },
+  pressableStyle: {
+    // flex: 6,
+    width: "60%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginRight: 10,
+  },
+  iconStyle: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    borderLeftColor: "black",
+    borderLeftWidth: 2,
   },
 });

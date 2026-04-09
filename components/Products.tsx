@@ -23,15 +23,20 @@ export default function ProductsScreen({ navigation }: Props) {
     </View>
   );
 
+  const deleteColorButton = (btnId: number) =>
+    setButtons(buttons.filter((btn) => btn.id !== btnId));
+
   return (
     <View style={styles.container}>
       <Text style={styles.textHeader}>Producs Screen</Text>
       <View style={styles.listBody}>
         <FlatList
-          data={BUTTON}
-          // data={buttons}
+          // data={BUTTON}
+          data={buttons}
           // renderItem={({ item }) => addButton({ ...item })}
-          renderItem={({ item }) => <ColorButton {...item} />}
+          renderItem={({ item }) => (
+            <ColorButton {...item} deleteItem={deleteColorButton} />
+          )}
           keyExtractor={(item) => item.id.toString()}
           // numColumns={2}
           // columnWrapperStyle={styles.columnWrapper}
