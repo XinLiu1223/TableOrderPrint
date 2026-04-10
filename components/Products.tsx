@@ -1,13 +1,15 @@
-import { View, Text, StyleSheet, Button, FlatList } from "react-native";
+import { View, Text, StyleSheet, Button, FlatList, Modal } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BUTTON } from "../model/ProductFeed";
 import ColorButton from "./ColorButton";
+import AddColorModal from "./AddColor";
 
 type Props = { navigation: NativeStackNavigationProp<any> };
 
 export default function ProductsScreen({ navigation }: Props) {
   const [buttons, setButtons] = useState(BUTTON);
+  const [isOpen, setOpen] = useState(false);
 
   const addButton = (props: {
     name: string;
@@ -26,6 +28,19 @@ export default function ProductsScreen({ navigation }: Props) {
   const deleteColorButton = (btnId: number) =>
     setButtons(buttons.filter((btn) => btn.id !== btnId));
 
+  const addColorButton = (addedColor: {
+    name: string;
+    colorParam: string;
+    description: string;
+  }) => {
+    setOpen(false);
+    setButtons([...buttons, { ...addedColor, id: buttons.length + 1 }]);
+  };
+
+  const closeModal = () => setOpen(false);
+
+  useEffect(() => console.log(buttons), [buttons]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.textHeader}>Producs Screen</Text>
@@ -42,11 +57,28 @@ export default function ProductsScreen({ navigation }: Props) {
           // columnWrapperStyle={styles.columnWrapper}
         />
       </View>
+      {isOpen ? (
+        <AddColorModal
+          closeModal={() => closeModal()}
+          onAdd={(colorItem) => addColorButton(colorItem)}
+        />
+      ) : null}
+      {/* <Modal
+        visible={isOpen}
+        onRequestClose={() => setOpen(!isOpen)}
+        transparent={true}
+      >
+        <View style={styles.modalStyle}>
+          <Text style={styles.modalTextStyle}>Modal Screen</Text>
+          <Button title="Close" onPress={() => setOpen(false)} />
+        </View>
+      </Modal> */}
       <View style={styles.goHomeButton}>
         <Button
           title="Go to Home"
           onPress={() => navigation.navigate("Home")}
         />
+        <Button title="Add Item" onPress={() => setOpen(!isOpen)} />
       </View>
     </View>
   );
@@ -76,6 +108,25 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   goHomeButton: {
-    // marginTop: 10,
+    flexDirection: "row",
+    width: "50%",
+    justifyContent: "space-evenly",
+    marginTop: 10,
+  },
+  modalStyle: {
+    height: "50%",
+    width: "80%",
+    justifyContent: "center",
+    marginTop: "50%",
+    alignSelf: "center",
+    borderColor: "black",
+    borderWidth: 2,
+    borderRadius: 10,
+    backgroundColor: "#f1e5d1",
+  },
+  modalTextStyle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
