@@ -10,6 +10,7 @@ type Props = { navigation: NativeStackNavigationProp<any> };
 export default function ProductsScreen({ navigation }: Props) {
   const [buttons, setButtons] = useState(BUTTON);
   const [isOpen, setOpen] = useState(false);
+  const [edit, setEdit] = useState<number | null>(null);
 
   const addButton = (props: {
     name: string;
@@ -37,6 +38,23 @@ export default function ProductsScreen({ navigation }: Props) {
     setButtons([...buttons, { ...addedColor, id: buttons.length + 1 }]);
   };
 
+  const updateColorButton = (updatedColor: {
+    name: string;
+    colorParam: string;
+    id: number;
+    description: string;
+  }) => {
+    setButtons(
+      buttons.map((btn) => (btn.id === updatedColor.id ? updatedColor : btn)),
+    );
+    setOpen(false);
+  };
+
+  const openEdit = (id: number) => {
+    setOpen(!isOpen);
+    setEdit(id);
+  };
+
   const closeModal = () => setOpen(false);
 
   useEffect(() => console.log(buttons), [buttons]);
@@ -50,7 +68,11 @@ export default function ProductsScreen({ navigation }: Props) {
           data={buttons}
           // renderItem={({ item }) => addButton({ ...item })}
           renderItem={({ item }) => (
-            <ColorButton {...item} deleteItem={deleteColorButton} />
+            <ColorButton
+              {...item}
+              deleteItem={deleteColorButton}
+              openEdit={(id) => openEdit(id)}
+            />
           )}
           keyExtractor={(item) => item.id.toString()}
           // numColumns={2}
@@ -61,24 +83,25 @@ export default function ProductsScreen({ navigation }: Props) {
         <AddColorModal
           closeModal={() => closeModal()}
           onAdd={(colorItem) => addColorButton(colorItem)}
+          onEdit={(updatedItem) => updateColorButton(updatedItem)}
+          editId={edit}
+          editItem={
+            edit !== null ? buttons.find((btn) => btn.id === edit) : null
+          }
         />
       ) : null}
-      {/* <Modal
-        visible={isOpen}
-        onRequestClose={() => setOpen(!isOpen)}
-        transparent={true}
-      >
-        <View style={styles.modalStyle}>
-          <Text style={styles.modalTextStyle}>Modal Screen</Text>
-          <Button title="Close" onPress={() => setOpen(false)} />
-        </View>
-      </Modal> */}
       <View style={styles.goHomeButton}>
         <Button
           title="Go to Home"
           onPress={() => navigation.navigate("Home")}
         />
-        <Button title="Add Item" onPress={() => setOpen(!isOpen)} />
+        <Button
+          title="Add Item"
+          onPress={() => {
+            setEdit(null);
+            setOpen(!isOpen);
+          }}
+        />
       </View>
     </View>
   );

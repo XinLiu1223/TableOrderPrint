@@ -10,6 +10,7 @@ type RootStackParamList = {
     colorParam: string;
     description: string;
     deleteItem: (btnId: number) => void;
+    openEdit: (btnId: number) => void;
   };
 };
 
@@ -19,10 +20,11 @@ type Props = {
   colorParam: string;
   description: string;
   deleteItem: (btnId: number) => void;
+  openEdit: (btnId: number) => void;
 };
 
 export default function ColorButton(props: Props) {
-  const { name, colorParam, deleteItem, id } = props;
+  const { name, colorParam, deleteItem, id, openEdit } = props;
   const navigate =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -49,6 +51,11 @@ export default function ColorButton(props: Props) {
       <View style={styles.iconStyle}>
         <Pressable onPress={() => deleteItem(id)}>
           <AntDesign name="delete" size={25} color="red" />
+        </Pressable>
+      </View>
+      <View style={styles.iconStyle}>
+        <Pressable onPress={() => openEdit(id)}>
+          <AntDesign name="edit" size={25} color="green" />
         </Pressable>
       </View>
     </View>

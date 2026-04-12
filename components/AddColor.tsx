@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -12,6 +12,9 @@ import {
 export default function AddColorModal({
   closeModal,
   onAdd,
+  onEdit,
+  editId,
+  editItem,
 }: {
   closeModal: () => void;
   onAdd: (addedColor: {
@@ -19,17 +22,33 @@ export default function AddColorModal({
     colorParam: string;
     description: string;
   }) => void;
+  onEdit: (updatedColor: {
+    id: number;
+    name: string;
+    colorParam: string;
+    description: string;
+  }) => void;
+  editId: number | null;
+  editItem?: {
+    id: number;
+    name: string;
+    colorParam: string;
+    description: string;
+  } | null;
 }) {
-  //   const [isOpen, setOpen] = useState(false);
   const [colorBtn, setColorBtn] = useState<{
     name: string;
     colorParam: string;
     description: string;
-  }>({
-    name: "",
-    colorParam: "",
-    description: "",
-  });
+  }>(
+    editId !== null && editItem
+      ? {
+          name: editItem.name,
+          colorParam: editItem.colorParam,
+          description: editItem.description,
+        }
+      : { name: "", colorParam: "", description: "" },
+  );
 
   const onChangeField = (key: string, value: string) =>
     setColorBtn({
@@ -38,6 +57,18 @@ export default function AddColorModal({
     });
 
   useEffect(() => console.log(colorBtn), [colorBtn]);
+
+  const colorRef = useRef<TextInput>(null);
+  const descRef = useRef<TextInput>(null);
+
+  const addColorWithSimpleValidate = () => {
+    if (!colorBtn.name.trim() || !colorBtn.colorParam.trim()) {
+      alert("name and color fields are required");
+      return;
+    }
+    onAdd(colorBtn);
+    closeModal();
+  };
 
   return (
     <Modal
@@ -52,26 +83,41 @@ export default function AddColorModal({
             style={styles.inputField}
             placeholder="name: "
             onChangeText={(text) => onChangeField("name", text)}
+            onSubmitEditing={() => colorRef.current?.focus()}
           >
             {colorBtn.name}
           </TextInput>
           <TextInput
+            ref={colorRef}
+            style={styles.inputField}
+            placeholder="color param: "
+            onChangeText={(text) => onChangeField("colorParam", text)}
+            onSubmitEditing={() => descRef.current?.focus()}
+          >
+            {colorBtn.colorParam}
+          </TextInput>
+          <TextInput
+            ref={descRef}
             style={styles.inputField}
             placeholder="description: "
             onChangeText={(text) => onChangeField("description", text)}
           >
             {colorBtn.description}
           </TextInput>
-          <TextInput
-            style={styles.inputField}
-            placeholder="color param: "
-            onChangeText={(text) => onChangeField("colorParam", text)}
-          >
-            {colorBtn.colorParam}
-          </TextInput>
         </View>
         <View style={styles.btnStyle}>
-          <Button title="Add" onPress={() => onAdd(colorBtn)} />
+          <Button
+            title={editId ? "Update" : "Add"}
+            onPress={() => {
+              if (editId && editItem) {
+                onEdit({ ...colorBtn, id: editItem.id });
+                closeModal();
+              } else {
+                addColorWithSimpleValidate();
+                closeModal();
+              }
+            }}
+          />
           <Button title="Close" onPress={() => closeModal()} />
         </View>
       </View>
