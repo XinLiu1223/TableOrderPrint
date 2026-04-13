@@ -4,10 +4,13 @@ import { useState, useEffect } from "react";
 import { BUTTON } from "../model/ProductFeed";
 import ColorButton from "./ColorButton";
 import AddColorModal from "./AddColor";
+import useButtonItemsReducer from "../reducer/buttonItems";
 
 type Props = { navigation: NativeStackNavigationProp<any> };
 
 export default function ProductsScreen({ navigation }: Props) {
+  const { itemsReducer, itemsDispatcher } = useButtonItemsReducer();
+
   const [buttons, setButtons] = useState(BUTTON);
   const [isOpen, setOpen] = useState(false);
   const [edit, setEdit] = useState<number | null>(null);
@@ -35,7 +38,10 @@ export default function ProductsScreen({ navigation }: Props) {
     description: string;
   }) => {
     setOpen(false);
-    setButtons([...buttons, { ...addedColor, id: buttons.length + 1 }]);
+    setButtons([
+      ...buttons,
+      { ...addedColor, id: buttons[buttons.length - 1].id + 1 },
+    ]);
   };
 
   const updateColorButton = (updatedColor: {
@@ -52,7 +58,8 @@ export default function ProductsScreen({ navigation }: Props) {
 
   const openEdit = (id: number) => {
     setOpen(!isOpen);
-    setEdit(id);
+    // setEdit(id);
+    itemsDispatcher({ type: "SELECT_ITEM", selectedId: id });
   };
 
   const closeModal = () => setOpen(false);
@@ -65,13 +72,17 @@ export default function ProductsScreen({ navigation }: Props) {
       <View style={styles.listBody}>
         <FlatList
           // data={BUTTON}
-          data={buttons}
+          // data={buttons}
+          data={itemsReducer.buttonItems}
           // renderItem={({ item }) => addButton({ ...item })}
           renderItem={({ item }) => (
             <ColorButton
               {...item}
-              deleteItem={deleteColorButton}
-              openEdit={(id) => openEdit(id)}
+              // deleteItem={deleteColorButton}
+              deleteItem={(id) =>
+                itemsDispatcher({ type: "DELETE_ITEM", deletedId: id })
+              }
+              openEdit={openEdit}
             />
           )}
           keyExtractor={(item) => item.id.toString()}
@@ -82,11 +93,23 @@ export default function ProductsScreen({ navigation }: Props) {
       {isOpen ? (
         <AddColorModal
           closeModal={() => closeModal()}
-          onAdd={(colorItem) => addColorButton(colorItem)}
-          onEdit={(updatedItem) => updateColorButton(updatedItem)}
-          editId={edit}
+          // onAdd={addColorButton}
+          onAdd={(addedItem) =>
+            itemsDispatcher({ type: "ADD_ITEM", newItem: addedItem })
+          }
+          // onEdit={updateColorButton}
+          onEdit={(updatedItem) =>
+            itemsDispatcher({ type: "UPDATE_ITEM", editedItem: updatedItem })
+          }
+          // editId={edit}
+          editId={itemsReducer.selectedId}
           editItem={
-            edit !== null ? buttons.find((btn) => btn.id === edit) : null
+            // edit !== null ? buttons.find((btn) => btn.id === edit) : null
+            itemsReducer.selectedId !== null
+              ? itemsReducer.buttonItems.find(
+                  (btn) => btn.id === itemsReducer.selectedId,
+                )
+              : null
           }
         />
       ) : null}
@@ -98,7 +121,8 @@ export default function ProductsScreen({ navigation }: Props) {
         <Button
           title="Add Item"
           onPress={() => {
-            setEdit(null);
+            // setEdit(null);
+            itemsDispatcher({ type: "SELECT_ITEM", selectedId: null });
             setOpen(!isOpen);
           }}
         />
