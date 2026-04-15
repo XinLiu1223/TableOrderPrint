@@ -68,7 +68,7 @@ export default function ProductsScreen({ navigation }: Props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.textHeader}>Producs Screen</Text>
+      <Text style={styles.textHeader}>Products Screen</Text>
       <View style={styles.listBody}>
         <FlatList
           // data={BUTTON}

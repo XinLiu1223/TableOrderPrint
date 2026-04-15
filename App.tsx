@@ -9,7 +9,7 @@ import ProductsDetails from "./components/ProductDetails";
 
 type RootStackParamList = {
   Home: undefined;
-  Producs: undefined;
+  Products: undefined;
   Details: {
     colorParam: string;
     name: string;
@@ -26,7 +26,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Producs" component={ProductsScreen} />
+        <Stack.Screen name="Products" component={ProductsScreen} />
         <Stack.Screen name="Details" component={ProductsDetails} />
         {/* <Stack.Screen name="Registration" component={RegMainForm} /> */}
       </Stack.Navigator>

@@ -9,7 +9,7 @@ export default function HomeScreen({ navigation }: Props) {
       <Text>Home Screen</Text>
       <Button
         title="Go to Products"
-        onPress={() => navigation.navigate("Producs")}
+        onPress={() => navigation.navigate("Products")}
       />
     </View>
   );
