@@ -20,8 +20,11 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "userInterfaceStyle": "automatic",
+      "barStyle": "default", // or "light" or "dark"
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.xinliu1223.TableOrderPrint"
     },
     "web": {
       "favicon": "./assets/favicon.png"
