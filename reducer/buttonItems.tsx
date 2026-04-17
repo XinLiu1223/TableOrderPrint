@@ -1,12 +1,12 @@
 import { useReducer } from "react";
 import { BUTTON } from "../model/ProductFeed";
 
-interface ReducerType {
+export interface ReducerType {
   selectedId: number | null;
   buttonItems: typeof BUTTON;
 }
 
-type ActionType =
+export type ActionType =
   | { type: "SELECT_ITEM"; selectedId: number | null }
   | { type: "DELETE_ITEM"; deletedId: number }
   | { type: "ADD_ITEM"; newItem: Omit<ReducerType["buttonItems"][0], "id"> }

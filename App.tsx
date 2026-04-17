@@ -9,10 +9,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./HomeScreen";
 import ProductsScreen from "./components/Products";
 import ProductsDetails from "./components/ProductDetails";
+import CustomDrawer from "./components/CustomDrawer";
+import useButtonItemsReducer from "./reducer/buttonItems";
+import { ButtonContext } from "./utils/ButtonContext";
 
 type RootStackParamList = {
   Home: undefined;
   Products: undefined;
+  Store: undefined;
   Details: {
     colorParam: string;
     name: string;
@@ -22,10 +26,10 @@ type RootStackParamList = {
   Registration: undefined;
 };
 
-const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator<RootStackParamList>();
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-function Home() {
+function HomeDrawer() {
   return (
     <Drawer.Navigator>
       <Drawer.Screen name="Home" component={HomeScreen} />
@@ -48,19 +52,50 @@ function StackScreen() {
   );
 }
 
-export default function App() {
+function HomeStack() {
   return (
-    <NavigationContainer>
-      {Home()}
-      {/* <Stack.Navigator> */}
-      {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
-      {/* <Stack.Screen name="Products" component={ProductsScreen} /> */}
-      {/* <Stack.Screen name="Details" component={ProductsDetails} /> */}
-      {/* <Stack.Screen name="Registration" component={RegMainForm} /> */}
-      {/* </Stack.Navigator> */}
-      {/* <RegMainForm /> */}
-      <StatusBar style="auto" />
-    </NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen
+        name="Products"
+        component={DrawerScreen}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function DrawerScreen() {
+  return (
+    <Drawer.Navigator drawerContent={(props) => <CustomDrawer {...props} />}>
+      {/* <Stack.Screen name="Home" component={Home} /> */}
+      {/* <Drawer.Screen name="Products" component={ProductsScreen} /> */}
+      <Drawer.Screen name="Store" component={ProductsScreen} />
+      <Drawer.Screen name="Details" component={ProductsDetails} />
+    </Drawer.Navigator>
+  );
+}
+
+export default function App() {
+  const { itemsReducer, itemsDispatcher } = useButtonItemsReducer();
+
+  return (
+    <ButtonContext.Provider
+      value={{ reducer: itemsReducer, dispatch: itemsDispatcher }}
+    >
+      <NavigationContainer>
+        {/* {HomeDrawer()} */}
+        {HomeStack()}
+        {/* <Stack.Navigator> */}
+        {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
+        {/* <Stack.Screen name="Products" component={ProductsScreen} /> */}
+        {/* <Stack.Screen name="Details" component={ProductsDetails} /> */}
+        {/* <Stack.Screen name="Registration" component={RegMainForm} /> */}
+        {/* </Stack.Navigator> */}
+        {/* <RegMainForm /> */}
+        <StatusBar style="auto" />
+      </NavigationContainer>
+    </ButtonContext.Provider>
   );
 }
 

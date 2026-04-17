@@ -5,11 +5,14 @@ import { BUTTON } from "../model/ProductFeed";
 import ColorButton from "./ColorButton";
 import AddColorModal from "./AddColor";
 import useButtonItemsReducer from "../reducer/buttonItems";
+import { useButtonContext } from "../utils/ButtonContext";
 
 type Props = { navigation: NativeStackNavigationProp<any> };
 
 export default function ProductsScreen({ navigation }: Props) {
-  const { itemsReducer, itemsDispatcher } = useButtonItemsReducer();
+  // const { itemsReducer, itemsDispatcher } = useButtonItemsReducer();
+  const { reducer: itemsReducer, dispatch: itemsDispatcher } =
+    useButtonContext();
 
   const [buttons, setButtons] = useState(BUTTON);
   const [isOpen, setOpen] = useState(false);
@@ -60,6 +63,7 @@ export default function ProductsScreen({ navigation }: Props) {
     setOpen(!isOpen);
     // setEdit(id);
     itemsDispatcher({ type: "SELECT_ITEM", selectedId: id });
+    // dispatch({ type: "SELECT_ITEM", selectedId: id });
   };
 
   const closeModal = () => setOpen(false);
@@ -74,6 +78,7 @@ export default function ProductsScreen({ navigation }: Props) {
           // data={BUTTON}
           // data={buttons}
           data={itemsReducer.buttonItems}
+          // data={reducer.buttonItems}
           // renderItem={({ item }) => addButton({ ...item })}
           renderItem={({ item }) => (
             <ColorButton
@@ -82,6 +87,9 @@ export default function ProductsScreen({ navigation }: Props) {
               deleteItem={(id) =>
                 itemsDispatcher({ type: "DELETE_ITEM", deletedId: id })
               }
+              // deleteItem={(id) =>
+              //   dispatch({ type: "DELETE_ITEM", deletedId: id })
+              // }
               openEdit={openEdit}
             />
           )}
@@ -97,12 +105,19 @@ export default function ProductsScreen({ navigation }: Props) {
           onAdd={(addedItem) =>
             itemsDispatcher({ type: "ADD_ITEM", newItem: addedItem })
           }
+          // onAdd={(addedItem) =>
+          //   dispatch({ type: "ADD_ITEM", newItem: addedItem })
+          // }
           // onEdit={updateColorButton}
           onEdit={(updatedItem) =>
             itemsDispatcher({ type: "UPDATE_ITEM", editedItem: updatedItem })
           }
+          // onEdit={(updatedItem) =>
+          //   dispatch({ type: "UPDATE_ITEM", editedItem: updatedItem })
+          // }
           // editId={edit}
           editId={itemsReducer.selectedId}
+          // editId={reducer.selectedId}
           editItem={
             // edit !== null ? buttons.find((btn) => btn.id === edit) : null
             itemsReducer.selectedId !== null
@@ -111,6 +126,12 @@ export default function ProductsScreen({ navigation }: Props) {
                 )
               : null
           }
+          // editItem={
+          //   // edit !== null ? buttons.find((btn) => btn.id === edit) : null
+          //   reducer.selectedId !== null
+          //     ? reducer.buttonItems.find((btn) => btn.id === reducer.selectedId)
+          //     : null
+          // }
         />
       ) : null}
       <View style={styles.goHomeButton}>
@@ -123,6 +144,7 @@ export default function ProductsScreen({ navigation }: Props) {
           onPress={() => {
             // setEdit(null);
             itemsDispatcher({ type: "SELECT_ITEM", selectedId: null });
+            // dispatch({ type: "SELECT_ITEM", selectedId: null });
             setOpen(!isOpen);
           }}
         />
