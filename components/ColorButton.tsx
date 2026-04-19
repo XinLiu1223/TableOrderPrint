@@ -9,8 +9,8 @@ type RootStackParamList = {
     name: string;
     colorParam: string;
     description: string;
-    deleteItem: (btnId: number) => void;
-    openEdit: (btnId: number) => void;
+    // deleteItem: (btnId: number) => void;
+    // openEdit: (btnId: number) => void;
   };
 };
 
