@@ -10,12 +10,18 @@ export type ActionType =
   | { type: "SELECT_ITEM"; selectedId: number | null }
   | { type: "DELETE_ITEM"; deletedId: number }
   | { type: "ADD_ITEM"; newItem: Omit<ReducerType["buttonItems"][0], "id"> }
-  | { type: "UPDATE_ITEM"; editedItem: ReducerType["buttonItems"][0] };
+  | { type: "UPDATE_ITEM"; editedItem: ReducerType["buttonItems"][0] }
+  | { type: "RESTORE"; initializedItem: ReducerType["buttonItems"] };
 
 export default function useButtonItemsReducer() {
   const [itemsReducer, itemsDispatcher] = useReducer(
     (itemsAndId: ReducerType, action: ActionType): ReducerType => {
       switch (action.type) {
+        case "RESTORE":
+          return {
+            ...itemsAndId,
+            buttonItems: action.initializedItem,
+          };
         case "SELECT_ITEM":
           return {
             ...itemsAndId,

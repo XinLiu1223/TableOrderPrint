@@ -2,7 +2,7 @@ import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
 import RegMainForm from "./RegMainScreen";
 import { StyleSheet } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -12,6 +12,7 @@ import ProductsDetails from "./components/ProductDetails";
 import CustomDrawer from "./components/CustomDrawer";
 import useButtonItemsReducer from "./reducer/buttonItems";
 import { ButtonContext } from "./utils/ButtonContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type RootStackParamList = {
   Home: undefined;
@@ -78,6 +79,24 @@ function DrawerScreen() {
 
 export default function App() {
   const { itemsReducer, itemsDispatcher } = useButtonItemsReducer();
+
+  useEffect(() => {
+    async function loadButtonItems() {
+      try {
+        const savedButtonItemsJsonString =
+          await AsyncStorage.getItem("buttonItems");
+        if (savedButtonItemsJsonString !== null) {
+          const savedButtonItems = JSON.parse(savedButtonItemsJsonString);
+          itemsDispatcher({
+            type: "RESTORE",
+            initializedItem: savedButtonItems,
+          });
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }, []);
 
   return (
     <ButtonContext.Provider
