@@ -5,6 +5,7 @@ import {
   DrawerContentComponentProps,
 } from "@react-navigation/drawer";
 import { useButtonContext } from "../utils/ButtonContext";
+import { StyleSheet } from "react-native";
 
 export default function CustomDrawer(props: DrawerContentComponentProps) {
   const { navigation } = props;
@@ -25,9 +26,21 @@ export default function CustomDrawer(props: DrawerContentComponentProps) {
             })
           }
           key={item.id}
+          style={styles.customItem}
           inactiveBackgroundColor={item.colorParam}
+          // activeBackgroundColor="black"
         />
       ))}
     </DrawerContentScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  customItem: {
+    marginVertical: 5,
+    // marginHorizontal: 10,
+  },
+  itemBackground: {
+    backgroundColor: "lightblue",
+  },
+});
