@@ -1,5 +1,6 @@
 import { useReducer } from "react";
 import { BUTTON } from "../model/ProductFeed";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export interface ReducerType {
   selectedId: number | null;
@@ -12,6 +13,15 @@ export type ActionType =
   | { type: "ADD_ITEM"; newItem: Omit<ReducerType["buttonItems"][0], "id"> }
   | { type: "UPDATE_ITEM"; editedItem: ReducerType["buttonItems"][0] }
   | { type: "RESTORE"; initializedItem: ReducerType["buttonItems"] };
+
+const storeBtnItems = async (newItems: ReducerType["buttonItems"]) => {
+  try {
+    const jsonItems = JSON.stringify(newItems);
+    await AsyncStorage.setItem("buttonItems", jsonItems);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 export default function useButtonItemsReducer() {
   const [itemsReducer, itemsDispatcher] = useReducer(
@@ -28,6 +38,9 @@ export default function useButtonItemsReducer() {
             selectedId: action.selectedId,
           };
         case "DELETE_ITEM":
+          storeBtnItems(
+            itemsAndId.buttonItems.filter((btn) => btn.id !== action.deletedId),
+          );
           return {
             ...itemsAndId,
             buttonItems: itemsAndId.buttonItems.filter(
@@ -35,6 +48,15 @@ export default function useButtonItemsReducer() {
             ),
           };
         case "ADD_ITEM":
+          storeBtnItems([
+            ...itemsAndId.buttonItems,
+            {
+              ...action.newItem,
+              id:
+                itemsAndId.buttonItems[itemsAndId.buttonItems.length - 1].id +
+                1,
+            },
+          ]);
           return {
             ...itemsAndId,
             buttonItems: [
@@ -48,6 +70,11 @@ export default function useButtonItemsReducer() {
             ],
           };
         case "UPDATE_ITEM":
+          storeBtnItems(
+            itemsAndId.buttonItems.map((btn) =>
+              btn.id === action.editedItem.id ? action.editedItem : btn,
+            ),
+          );
           return {
             ...itemsAndId,
             buttonItems: itemsAndId.buttonItems.map((btn) =>
