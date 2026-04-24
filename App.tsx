@@ -4,6 +4,7 @@ import RegMainForm from "./RegMainScreen";
 import { StyleSheet } from "react-native";
 import React, { useEffect } from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./HomeScreen";
@@ -13,11 +14,16 @@ import CustomDrawer from "./components/CustomDrawer";
 import useButtonItemsReducer from "./reducer/buttonItems";
 import { ButtonContext } from "./utils/ButtonContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AntDesign } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+import HelpScreen from "./components/HelpScreen";
 
 type RootStackParamList = {
   Home: undefined;
   Products: undefined;
   Store: undefined;
+  MyTabs: undefined;
+  Help: undefined;
   Details: {
     colorParam: string;
     name: string;
@@ -28,6 +34,7 @@ type RootStackParamList = {
 };
 
 const Drawer = createDrawerNavigator<RootStackParamList>();
+const BottomTabs = createBottomTabNavigator<RootStackParamList>();
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function HomeDrawer() {
@@ -40,6 +47,44 @@ function HomeDrawer() {
         options={{ headerShown: false }}
       />
     </Drawer.Navigator>
+  );
+}
+
+function BottomTabsScreen() {
+  return (
+    <BottomTabs.Navigator screenOptions={{}}>
+      {/* <BottomTabs.Screen name="Home" component={HomeScreen} /> */}
+      <BottomTabs.Screen
+        name="MyTabs"
+        component={HomeStack}
+        options={{
+          headerShown: false,
+          tabBarLabel: "Home",
+          tabBarIcon: ({ focused }) => (
+            <AntDesign
+              name="home"
+              size={24}
+              color={focused ? "green" : "black"}
+            />
+          ),
+        }}
+      />
+      <BottomTabs.Screen
+        name="Help"
+        component={HelpScreen}
+        options={{
+          // headerShown: false,
+          // tabBarLabel: "Home",
+          tabBarIcon: ({ focused }) => (
+            <Feather
+              name="help-circle"
+              size={24}
+              color={focused ? "green" : "black"}
+            />
+          ),
+        }}
+      />
+    </BottomTabs.Navigator>
   );
 }
 
@@ -105,7 +150,8 @@ export default function App() {
     >
       <NavigationContainer>
         {/* {HomeDrawer()} */}
-        {HomeStack()}
+        {/* {HomeStack()} */}
+        {BottomTabsScreen()}
         {/* <Stack.Navigator> */}
         {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
         {/* <Stack.Screen name="Products" component={ProductsScreen} /> */}
