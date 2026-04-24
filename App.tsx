@@ -50,7 +50,7 @@ function HomeDrawer() {
   );
 }
 
-function BottomTabsScreen() {
+function BottomTabsScreen(numOfBtns?: number) {
   return (
     <BottomTabs.Navigator screenOptions={{}}>
       {/* <BottomTabs.Screen name="Home" component={HomeScreen} /> */}
@@ -67,6 +67,7 @@ function BottomTabsScreen() {
               color={focused ? "green" : "black"}
             />
           ),
+          tabBarBadge: numOfBtns,
         }}
       />
       <BottomTabs.Screen
@@ -151,7 +152,7 @@ export default function App() {
       <NavigationContainer>
         {/* {HomeDrawer()} */}
         {/* {HomeStack()} */}
-        {BottomTabsScreen()}
+        {BottomTabsScreen(itemsReducer.buttonItems.length)}
         {/* <Stack.Navigator> */}
         {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
         {/* <Stack.Screen name="Products" component={ProductsScreen} /> */}
