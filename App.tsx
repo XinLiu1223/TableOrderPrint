@@ -17,6 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import HelpScreen from "./components/HelpScreen";
+import SocAppBottomTabs from "./components/SocAppBottomTabs";
 
 type RootStackParamList = {
   Home: undefined;
@@ -31,6 +32,10 @@ type RootStackParamList = {
     description: string;
   };
   Registration: undefined;
+  SocAppHome: undefined;
+  Notifications: undefined;
+  Categories: undefined;
+  Profile: undefined;
 };
 
 const Drawer = createDrawerNavigator<RootStackParamList>();
@@ -152,7 +157,7 @@ export default function App() {
       <NavigationContainer>
         {/* {HomeDrawer()} */}
         {/* {HomeStack()} */}
-        {BottomTabsScreen(itemsReducer.buttonItems.length)}
+        {/* {BottomTabsScreen(itemsReducer.buttonItems.length)} */}
         {/* <Stack.Navigator> */}
         {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
         {/* <Stack.Screen name="Products" component={ProductsScreen} /> */}
@@ -160,6 +165,7 @@ export default function App() {
         {/* <Stack.Screen name="Registration" component={RegMainForm} /> */}
         {/* </Stack.Navigator> */}
         {/* <RegMainForm /> */}
+        {SocAppBottomTabs()}
         <StatusBar style="auto" />
       </NavigationContainer>
     </ButtonContext.Provider>
