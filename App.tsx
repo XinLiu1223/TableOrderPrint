@@ -18,6 +18,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import HelpScreen from "./components/HelpScreen";
 import SocAppBottomTabs from "./components/SocAppBottomTabs";
+import ActionButton from "./components/ActionButton";
 
 type RootStackParamList = {
   Home: undefined;
@@ -157,6 +158,7 @@ export default function App() {
       <NavigationContainer>
         {/* {HomeDrawer()} */}
         {/* {HomeStack()} */}
+        {/* uncomment this line to see the previous app */}
         {/* {BottomTabsScreen(itemsReducer.buttonItems.length)} */}
         {/* <Stack.Navigator> */}
         {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
@@ -166,6 +168,7 @@ export default function App() {
         {/* </Stack.Navigator> */}
         {/* <RegMainForm /> */}
         {SocAppBottomTabs()}
+        <ActionButton />
         <StatusBar style="auto" />
       </NavigationContainer>
     </ButtonContext.Provider>

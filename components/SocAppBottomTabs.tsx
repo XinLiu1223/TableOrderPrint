@@ -45,7 +45,7 @@ export default function SocAppBottomTabs() {
             ) : (
               <Image source={require("../assets/images/home-unselected.png")} />
             ),
-          tabBarShowLabel: false,
+          // tabBarShowLabel: false,
         }}
       />
       <BottomTabs.Screen
@@ -56,13 +56,22 @@ export default function SocAppBottomTabs() {
             focused ? (
               <Image
                 source={require("../assets/images/notifications-selected.png")}
+                style={{
+                  marginRight: 20,
+                }}
               />
             ) : (
               <Image
                 source={require("../assets/images/notifications-unselected.png")}
+                style={{
+                  marginRight: 20,
+                }}
               />
             ),
           // tabBarShowLabel: false,
+          tabBarLabelStyle: {
+            marginRight: 20,
+          },
         }}
       />
       <BottomTabs.Screen
@@ -73,13 +82,22 @@ export default function SocAppBottomTabs() {
             focused ? (
               <Image
                 source={require("../assets/images/categories-selected.png")}
+                style={{
+                  marginLeft: 20,
+                }}
               />
             ) : (
               <Image
                 source={require("../assets/images/categories-unselected.png")}
+                style={{
+                  marginLeft: 20,
+                }}
               />
             ),
           // tabBarShowLabel: false,
+          tabBarLabelStyle: {
+            marginLeft: 20,
+          },
         }}
       />
       <BottomTabs.Screen
