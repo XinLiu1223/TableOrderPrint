@@ -19,6 +19,7 @@ import { Feather } from "@expo/vector-icons";
 import HelpScreen from "./components/HelpScreen";
 import SocAppBottomTabs from "./components/SocAppBottomTabs";
 import ActionButton from "./components/ActionButton";
+import Header from "./components/Header";
 
 type RootStackParamList = {
   Home: undefined;
@@ -167,6 +168,7 @@ export default function App() {
         {/* <Stack.Screen name="Registration" component={RegMainForm} /> */}
         {/* </Stack.Navigator> */}
         {/* <RegMainForm /> */}
+        <Header />
         {SocAppBottomTabs()}
         <ActionButton />
         <StatusBar style="auto" />
