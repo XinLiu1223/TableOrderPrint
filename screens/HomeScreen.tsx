@@ -2,6 +2,21 @@ import { View, Text, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
 export default function SocAppHomeScreen() {
+  const followBlock = ({
+    followText,
+    followNum,
+  }: {
+    followText: string;
+    followNum: number;
+  }) => {
+    return (
+      <View style={styles.followView}>
+        <Text style={styles.textTitle}>{followText}</Text>
+        <Text style={styles.followNumber}>{followNum}</Text>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.rootView}>
       {/* <StatusBar style="auto" /> */}
@@ -10,14 +25,8 @@ export default function SocAppHomeScreen() {
         <Text>Open up App.tsx to start working on your app!</Text>
       </View>
       <View style={styles.folowerAndFollowing}>
-        <View style={styles.folowerView}>
-          <Text style={styles.textTitle}>Followers</Text>
-          <Text style={styles.followerNumber}>100</Text>
-        </View>
-        <View style={styles.followingView}>
-          <Text style={styles.textTitle}>Following</Text>
-          <Text style={styles.followingNumber}>100</Text>
-        </View>
+        {followBlock({ followText: "Followers", followNum: 10 })}
+        {followBlock({ followText: "Following", followNum: 30 })}
       </View>
     </View>
   );
@@ -50,20 +59,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
   },
-  folowerView: {
+
+  followView: {
     flexDirection: "row",
     alignItems: "center",
   },
-  followingView: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  followerNumber: {
-    marginHorizontal: 5,
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  followingNumber: {
+  followNumber: {
     marginHorizontal: 5,
     fontSize: 18,
     fontWeight: "bold",
