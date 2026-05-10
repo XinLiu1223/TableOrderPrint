@@ -21,13 +21,16 @@
         "backgroundColor": "#ffffff"
       },
       "userInterfaceStyle": "automatic",
-      "barStyle": "default", // or "light" or "dark"
+      "barStyle": "default",
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.xinliu1223.TableOrderPrint"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }

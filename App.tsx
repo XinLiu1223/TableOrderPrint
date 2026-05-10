@@ -20,6 +20,8 @@ import HelpScreen from "./components/HelpScreen";
 import SocAppBottomTabs from "./components/SocAppBottomTabs";
 import ActionButton from "./components/ActionButton";
 import Header from "./components/Header";
+import { PaperProvider } from "react-native-paper";
+import { Stack } from "expo-router";
 
 type RootStackParamList = {
   Home: undefined;
@@ -42,7 +44,7 @@ type RootStackParamList = {
 
 const Drawer = createDrawerNavigator<RootStackParamList>();
 const BottomTabs = createBottomTabNavigator<RootStackParamList>();
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const NativeStack = createNativeStackNavigator<RootStackParamList>();
 
 function HomeDrawer() {
   return (
@@ -98,31 +100,31 @@ function BottomTabsScreen(numOfBtns?: number) {
 
 function StackScreen() {
   return (
-    <Stack.Navigator>
-      {/* <Stack.Screen name="Home" component={Home} /> */}
-      <Stack.Screen name="Products" component={ProductsScreen} />
-      <Stack.Screen name="Details" component={ProductsDetails} />
-    </Stack.Navigator>
+    <NativeStack.Navigator>
+      {/* <NativeStack.Screen name="Home" component={Home} /> */}
+      <NativeStack.Screen name="Products" component={ProductsScreen} />
+      <NativeStack.Screen name="Details" component={ProductsDetails} />
+    </NativeStack.Navigator>
   );
 }
 
 function HomeStack() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen
+    <NativeStack.Navigator>
+      <NativeStack.Screen name="Home" component={HomeScreen} />
+      <NativeStack.Screen
         name="Products"
         component={DrawerScreen}
         options={{ headerShown: false }}
       />
-    </Stack.Navigator>
+    </NativeStack.Navigator>
   );
 }
 
 function DrawerScreen() {
   return (
     <Drawer.Navigator drawerContent={(props) => <CustomDrawer {...props} />}>
-      {/* <Stack.Screen name="Home" component={Home} /> */}
+      {/* <NativeStack.Screen name="Home" component={Home} /> */}
       {/* <Drawer.Screen name="Products" component={ProductsScreen} /> */}
       <Drawer.Screen name="Store" component={ProductsScreen} />
       <Drawer.Screen name="Details" component={ProductsDetails} />
@@ -153,27 +155,31 @@ export default function App() {
   }, []);
 
   return (
-    <ButtonContext.Provider
-      value={{ reducer: itemsReducer, dispatch: itemsDispatcher }}
-    >
-      <NavigationContainer>
-        {/* {HomeDrawer()} */}
-        {/* {HomeStack()} */}
-        {/* uncomment this line to see the previous app */}
-        {/* {BottomTabsScreen(itemsReducer.buttonItems.length)} */}
-        {/* <Stack.Navigator> */}
-        {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
-        {/* <Stack.Screen name="Products" component={ProductsScreen} /> */}
-        {/* <Stack.Screen name="Details" component={ProductsDetails} /> */}
-        {/* <Stack.Screen name="Registration" component={RegMainForm} /> */}
-        {/* </Stack.Navigator> */}
-        {/* <RegMainForm /> */}
-        <Header />
-        {SocAppBottomTabs()}
-        <ActionButton />
-        <StatusBar style="auto" />
-      </NavigationContainer>
-    </ButtonContext.Provider>
+    <PaperProvider>
+      <StatusBar style="auto" />
+      {/* <Stack screenOptions={{}} /> */}
+      <ButtonContext.Provider
+        value={{ reducer: itemsReducer, dispatch: itemsDispatcher }}
+      >
+        <NavigationContainer>
+          {/* {HomeDrawer()} */}
+          {/* {HomeStack()} */}
+          {/* uncomment this line to see the previous app */}
+          {/* {BottomTabsScreen(itemsReducer.buttonItems.length)} */}
+          {/* <NativeStack.Navigator> */}
+          {/* <NativeStack.Screen name="Home" component={HomeScreen} /> */}
+          {/* <NativeStack.Screen name="Products" component={ProductsScreen} /> */}
+          {/* <NativeStack.Screen name="Details" component={ProductsDetails} /> */}
+          {/* <NativeStack.Screen name="Registration" component={RegMainForm} /> */}
+          {/* </NativeStack.Navigator> */}
+          {/* <RegMainForm /> */}
+          <Header />
+          {SocAppBottomTabs()}
+          <ActionButton />
+          <StatusBar style="auto" />
+        </NavigationContainer>
+      </ButtonContext.Provider>
+    </PaperProvider>
   );
 }
 
