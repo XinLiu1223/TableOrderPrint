@@ -155,31 +155,27 @@ export default function App() {
   }, []);
 
   return (
-    <PaperProvider>
-      <StatusBar style="auto" />
-      {/* <Stack screenOptions={{}} /> */}
-      <ButtonContext.Provider
-        value={{ reducer: itemsReducer, dispatch: itemsDispatcher }}
-      >
-        <NavigationContainer>
-          {/* {HomeDrawer()} */}
-          {/* {HomeStack()} */}
-          {/* uncomment this line to see the previous app */}
-          {/* {BottomTabsScreen(itemsReducer.buttonItems.length)} */}
-          {/* <NativeStack.Navigator> */}
-          {/* <NativeStack.Screen name="Home" component={HomeScreen} /> */}
-          {/* <NativeStack.Screen name="Products" component={ProductsScreen} /> */}
-          {/* <NativeStack.Screen name="Details" component={ProductsDetails} /> */}
-          {/* <NativeStack.Screen name="Registration" component={RegMainForm} /> */}
-          {/* </NativeStack.Navigator> */}
-          {/* <RegMainForm /> */}
-          <Header />
-          {SocAppBottomTabs()}
-          <ActionButton />
-          <StatusBar style="auto" />
-        </NavigationContainer>
-      </ButtonContext.Provider>
-    </PaperProvider>
+    <ButtonContext.Provider
+      value={{ reducer: itemsReducer, dispatch: itemsDispatcher }}
+    >
+      <NavigationContainer>
+        {/* {HomeDrawer()} */}
+        {/* {HomeStack()} */}
+        {/* uncomment this line to see the previous app */}
+        {/* {BottomTabsScreen(itemsReducer.buttonItems.length)} */}
+        {/* <NativeStack.Navigator> */}
+        {/* <NativeStack.Screen name="Home" component={HomeScreen} /> */}
+        {/* <NativeStack.Screen name="Products" component={ProductsScreen} /> */}
+        {/* <NativeStack.Screen name="Details" component={ProductsDetails} /> */}
+        {/* <NativeStack.Screen name="Registration" component={RegMainForm} /> */}
+        {/* </NativeStack.Navigator> */}
+        {/* <RegMainForm /> */}
+        <Header />
+        {SocAppBottomTabs()}
+        <ActionButton />
+        <StatusBar style="auto" />
+      </NavigationContainer>
+    </ButtonContext.Provider>
   );
 }
 
